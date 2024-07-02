@@ -1,26 +1,22 @@
 html{
   font-family: 'Ubuntu', sans-serif;
-  background-color: #5E6472;
-  color: #FAF3DD;
-  margin-left: 7vw;
+  background: rgb(62,96,181);
+  background: linear-gradient(90deg, rgba(62,96,181,1) 0%, rgba(119,96,230,1) 44%, rgba(224,118,220,1) 100%);
+  color: white;
 }
 
 canvas {
   display: block;
-  margin-top: 50px;
+  margin-top: 5px;
   border-radius: 10px;
-  background-color: #FAF3DD;
+  background-color: white;
+  -webkit-box-shadow: 8px 6px 18px 3px rgba(20,18,93,0.7);
+  box-shadow: 8px 6px 18px 3px rgba(20,18,93,0.7);
 }
 
-#container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-}
 
 .container__results {
   padding: 20px;
-  margin: 2px 0 0 20px;
 }
 
 .hidden {
@@ -28,19 +24,19 @@ canvas {
 }
 
 table {
-  font-size: 10px;
-  margin: 0;
+  font-size: 15px;
+  margin: 10px 0 10px 230px;
 }
 
-.container__canvas {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
 
-#berechnen {
-  margin: 10px 400px 0 400px;
-  padding: 5px 0 5px 0;
+ #matrizenButton{
+  padding: 10px 4px 10px 4px;
+  margin-left: 190px;
+  background-color: unset;
+  border: 2px solid white;
+  border-radius: 5px;
+  color: white;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 label {
@@ -51,6 +47,64 @@ label {
 
 h1 {
   text-align: center;
-  margin-bottom: 100px;
+  font-size: 3rem;
+  margin-bottom: 60px;
+  margin-left: 50px;
+  margin-top: 15px;
+  color: #FFFFFF;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), -1px 2px 2px rgba(255,255,255,0);
 }
+
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  padding: 2px 0 2px 0;
+  margin: 0;
+}
+
+#upload-input{
+  padding: 8px 4px 8px 4px;
+  background-color: unset;
+  border-radius: 5px;
+  color: white;
+  font-family: 'Ubuntu', sans-serif;
+  margin-left: 10px;
+}
+
+#upload-input:hover, #matrizenButton:hover {
+  cursor: pointer;
+  background-color: rgba(245, 93, 255, 0.4);
+}
+
+#matrizenButton {
+  margin-top: 30px;
+  margin-left: 240px;
+}
+
+
+.parent {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+}
+
+.div1 {
+  grid-area: 1 / 1 / 3 / 2;
+}
+.div2 {
+  grid-area: 1 / 2 / 3 / 3;
+}
+
+h2 {
+  text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5), -1px 2px 2px rgba(255,255,255,0);
+}
+
+
 

@@ -10,17 +10,16 @@ let originalMatrix = {
 //variables
 const $uploadInput = document.getElementById('upload-input');
 const $outputDiv = document.getElementById('output');
-const $calcButton = document.getElementById('berechnen');
 const $canvas = document.getElementById('graph-canvas');
 const context = $canvas.getContext('2d');
 let currentlyDrawing = false;
 let originIndex = false;
 const $matrizenButton = document.getElementById('matrizenButton');
-//event listeners
+const $matrizenDiv = document.getElementById('matrizen');
 
-//file reading
+
+//event listeners
 $uploadInput.addEventListener('change', acceptFile);
-$calcButton.addEventListener('click', () => calcEverything(originalMatrix));
 $canvas.addEventListener('click', (event) => handleCanvasClick(event));
 $matrizenButton.addEventListener('click', () => { document.getElementById('matrizen').classList.toggle('hidden')});
 
@@ -30,13 +29,12 @@ function isItOnANode(event){
   const mouseY = event.clientY - rect.top;
   let index = false;
   for (let i = 0; i < originalMatrix.nodes.length; i++) {
-    if ((mouseX <= originalMatrix.nodes[i].x + 15 && mouseX >= originalMatrix.nodes[i].x - 15) &&
-      (mouseY <= originalMatrix.nodes[i].y + 15 && mouseY >= originalMatrix.nodes[i].y - 15)) {
+    if ((mouseX <= originalMatrix.nodes[i].x + 19 && mouseX >= originalMatrix.nodes[i].x - 19) &&
+      (mouseY <= originalMatrix.nodes[i].y + 19 && mouseY >= originalMatrix.nodes[i].y - 19)) {
       index = i;
 
     }
 }
-  console.log(index);
   return index;
 }
 
@@ -52,37 +50,35 @@ function handleCanvasClick(event) {
 }
 
 function addNode(event){
-  const rect = $canvas.getBoundingClientRect(); // Get the canvas bounding rectangle
-  const mouseX = event.clientX - rect.left; // Get the mouse X coordinate relative to the canvas
-  const mouseY = event.clientY - rect.top; // Get the mouse Y coordinate relative to the canvas
+  const rect = $canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
 
-  for (let i = 0; i < originalMatrix.values.length; i++) {
-    originalMatrix.values[i].push(0);
+  for (const element of originalMatrix.values) {
+    element.push(0);
   }
-  let adj = [];
+  let newNode = [];
   for (let i = 0; i < originalMatrix.values.length+1; i++) {
-    adj.push(0);
+    newNode.push(0);
   }
-  originalMatrix.values.push(adj);
+  originalMatrix.values.push(newNode);
   originalMatrix.nodes.push({label: originalMatrix.nodeCounter++, x: mouseX, y: mouseY});
   translateMatrix(originalMatrix);
 }
 function addEdge(event) {
-  console.log("addEdge being called");
   currentlyDrawing = true;
   originIndex = isItOnANode(event);
   context.beginPath();
-  context.arc(originalMatrix.nodes[originIndex].x, originalMatrix.nodes[originIndex].y, 14, 0, Math.PI * 2, true);
-  context.fillStyle = 'pink';
+  context.arc(originalMatrix.nodes[originIndex].x, originalMatrix.nodes[originIndex].y, 16, 0, Math.PI * 2, true);
+  context.fillStyle = '#ED5CF3';
   context.fill();
   context.stroke();
-  context.fillStyle = 'black';
+  context.fillStyle = 'white';
   context.font = '14px Arial';
   context.fillText(toLetters(originalMatrix.nodes[originIndex].label), originalMatrix.nodes[originIndex].x - 5, originalMatrix.nodes[originIndex].y + 5);
 }
 
 function continueEdge(event) {
-  console.log("continueEdge being called");
   let destinationIndex = false;
   if (currentlyDrawing && originIndex !== false) {
     destinationIndex = isItOnANode(event);
@@ -90,33 +86,22 @@ function continueEdge(event) {
     if (destinationIndex !== false) {
       originalMatrix.values[originIndex][destinationIndex] = 1;
       originalMatrix.values[destinationIndex][originIndex] = 1;
-      context.beginPath();
-      context.arc(originalMatrix.nodes[destinationIndex].x, originalMatrix.nodes[destinationIndex].y, 14, 0, Math.PI * 2, true);
-      context.fillStyle = 'pink';
-      context.fill();
-      context.stroke();
-      context.fillStyle = 'black';
-      context.font = '14px Arial';
-      context.fillText(toLetters(originalMatrix.nodes[destinationIndex].label), originalMatrix.nodes[destinationIndex].x - 5, originalMatrix.nodes[destinationIndex].y + 5);
       translateMatrix(originalMatrix);
     }
   currentlyDrawing = false;
   originIndex = false;
 }
 
-//event funcs
-
 function calcEverything(m){
   $outputDiv.innerHTML = '';
-  console.log(m);
-  console.log(initializeDistanzmatrix(m));
-  console.log(calculateDistances(m));
+  $matrizenDiv.innerHTML = '';
   eccentricityCalc(m);
   calcComponents(m);
   calcArticulations(m);
   calcBridges(m);
   displayMatrix(originalMatrix);
   displayMatrix(calculateDistances(originalMatrix));
+
 }
 
 function acceptFile(e){
@@ -138,7 +123,9 @@ function refresh(){
     values: [],
     nodes: [],
     nodeCounter: 1
-  }
+  };
+  $outputDiv.innerHTML = '';
+  $matrizenDiv.innerHTML = '';
 }
 
 function matrixArray(content) {
@@ -160,8 +147,7 @@ return originalMatrix;
 }
 function displayMatrix(matrix) {
   if (!matrix || !matrix.values || matrix.values.length === 0 || !matrix.values[0]) {
-    console.log('Invalid matrix');
-    return;
+    throw Error;
   }
 
   const table = document.createElement('table');
@@ -189,8 +175,7 @@ function toLetters(num) {
 }
 function add(m1, m2){
   if (m1 === null || m2 === null || m1 === undefined || m2 === undefined){
-    console.log("Error: Received matrix is null");
-    return;
+    throw Error;
   }
   let m3 = {
     values: []
@@ -208,8 +193,7 @@ function add(m1, m2){
 
   function multiply(m1, m2) {
     if (m1 === null || m2 === null || m1 === undefined || m2 === undefined) {
-      console.log("Error: Received matrix is null");
-      return;
+      throw Error;
     }
 
     const columns = m1.values.length;
@@ -243,10 +227,10 @@ function add(m1, m2){
     for (let i = 0; i < distanzmatrix.values.length; i++) {
        distanzmatrix.values[i][i] =' . ';
     }
-    for (let i = 0; i < distanzmatrix.values.length; i++) {
-      for (let j = 0; j < distanzmatrix.values[i].length; j++) {
-        if (distanzmatrix.values[i][j] === 0) {
-          distanzmatrix.values[i][j] = '∞';
+    for (const element of distanzmatrix.values) {
+      for (let j = 0; j < element.length; j++) {
+        if (element[j] === 0) {
+          element[j] = '∞';
         }
       }
     }
@@ -258,10 +242,7 @@ function add(m1, m2){
 }
 
 function calculateDistances(m1) {
-  let distanzmatrix = {
-    values: []
-  };
-  distanzmatrix = initializeDistanzmatrix(m1);
+  let distanzmatrix = initializeDistanzmatrix(m1);
   let prevResult = m1;
   for (let i = 2; i <= m1.values.length+1; i++) {
     let currentResult = multiply(m1, prevResult);
@@ -282,9 +263,9 @@ function calculateDistances(m1) {
 function eccentricityCalc(m1){
   let newMatrix = calculateDistances(m1);
   let eccentricities = [];
-  for (let i = 0; i < newMatrix.values.length; i++) {
-    for (let j = 0; j < newMatrix.values[i].length; j++) {
-      if (newMatrix.values[i][j] === '∞'){
+  for (const element of newMatrix.values) {
+    for (let j = 0; j < element.length; j++) {
+      if (element[j] === '∞'){
         const p = document.createElement('p');
         p.textContent = `Graph ist nicht zusammenhängend.`;
         $outputDiv.appendChild(p);
@@ -325,7 +306,7 @@ m1.eccentricities = eccentricities;
     }
   }
   const p2 = document.createElement('p')
-  p2.textContent = `Der Durchmesser dieses Graphs beträgt ${durchmesser}, der Radius beträgt ${radius} und das Zentrum/die Zentren ist/sind ${zentrum}.`
+  p2.innerHTML = `Der Durchmesser dieses Graphs beträgt <strong>${durchmesser}</strong>, der Radius beträgt <strong>${radius}</strong> und das Zentrum/die Zentren ist/sind <strong>${zentrum}</strong>.`
   if (radius === 1000000000000){
     p2.textContent = 'Graph ist nicht zusammenhängend.'
   }
@@ -382,7 +363,6 @@ function initializeWegmatrix(m){
 function calcComponents(m){
   let wegmatrix = initializeWegmatrix(m);
   let uniqueRows = new Set;
-let componentCount = 0;
   for (let i = 0; i < wegmatrix.values.length; i++) {
     uniqueRows.add(JSON.stringify(wegmatrix.values[i]));
   }
@@ -396,32 +376,30 @@ function calcArticulations(m){
   for (let i = 0; i < m.values.length; i++) {
     let mCopy = JSON.parse(JSON.stringify(m));
 
-    let removedRow = mCopy.values.splice(i, 1)[0];
+    let removedRow = mCopy.values.splice(i, 1);
 
     let removedColumn = [];
     for (let j = 0; j < mCopy.values.length; j++) {
-      removedColumn.push(mCopy.values[j].splice(i, 1)[0]);
+      removedColumn.push(mCopy.values[j].splice(i, 1));
     }
-
 
     if (calcComponents(mCopy) > baseCount) {
       articulations.push(toLetters(i + 1));
     }
 
-    mCopy.values.splice(i, 0, removedRow);
+    /*mCopy.values.splice(i, 0, removedRow);
     for (let j = 0; j < mCopy.values.length; j++) {
       mCopy.values[j].splice(i, 0, removedColumn[j]);
-    }
+    }*/
 
   }
   const p = document.createElement('p');
-  p.textContent = `Die Artikulationen in diesem Graphen sind ${articulations}.`;
+  p.innerHTML = `Die Artikulation/en in diesem Graphen ist/sind <strong>${articulations}</strong>.`;
   if (articulations.length === 0){
     p.textContent = 'Dieser Graph enthält keine Artikulationen.'
   }
   $outputDiv.appendChild(p);
 
-  console.log(articulations);
   return articulations;
 }
 
@@ -435,7 +413,7 @@ function calcBridges(m){
         mCopy.values[i][j] = 0;
         mCopy.values[j][i] = 0;
         if (calcComponents(mCopy) > baseCount){
-          let string = toLetters(i+1) + ', '+ toLetters(j+1);
+          let string = ' ' + toLetters(i+1) + ' und '+ toLetters(j+1);
           bridges.push(string);
         }
         mCopy.values[i][j] = 1;
@@ -445,7 +423,7 @@ function calcBridges(m){
     }
   }
   const p = document.createElement('p');
-  p.textContent = `Die Brücken in diesem Graphen sind ${bridges}.`;
+  p.innerHTML = `Die Brücke/n in diesem Graphen ist/sind zwischen <strong>${bridges}</strong>.`;
 
   if (bridges.length === 0){
     p.textContent = 'Dieser Graph enthält keine Brücken.'
@@ -459,7 +437,6 @@ function getRandom(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-
 function createNodes(m){
   m.nodeCounter = 1;
   const nodes = [];
@@ -467,17 +444,19 @@ function createNodes(m){
     let node = {label: m.nodeCounter++, x: getRandom(-$canvas.width/2.5, $canvas.width/2.5) + $canvas.width / 2, y: getRandom(-$canvas.height/2.5, $canvas.height/2.5) + $canvas.height/2};
     nodes.push(node);
   }
-  m.nodes = nodes; // Ensure nodes are added to the matrix
+
+  m.nodes = nodes;
   for (let i = 0; i < 100; i++) {
     updateNodePositions(m);
   }
+
   return m;
 }
 
   function updateNodePositions(m) {
     for (let i = 0; i < m.nodes.length; i++) {
       for (let j = 0; j < m.nodes.length; j++) {
-        if (Math.abs(m.nodes[i].x - m.nodes[j].x) < 10 && Math.abs(m.nodes[i].y - m.nodes[j].y) < 10){
+        if (Math.abs(m.nodes[i].x - m.nodes[j].x) < 19 && Math.abs(m.nodes[i].y - m.nodes[j].y) < 19){
           m.nodes[i].x = getRandom(-$canvas.width/2.3, $canvas.width/2.3) + $canvas.width / 2;
           m.nodes[i].y = getRandom(-$canvas.height/2.5, $canvas.height/2.5) + $canvas.height/2;
         }
@@ -486,11 +465,10 @@ function createNodes(m){
 
   }
 
-
-
 function translateMatrix(m){
   $outputDiv.innerHTML = '';
   context.clearRect(0, 0, $canvas.width, $canvas.height);
+  context.strokeStyle = '#424FD2'
 
   for (let i = 0; i < m.values.length; i++) {
     for (let j = i + 1; j < m.values[i].length; j++) {
@@ -503,16 +481,16 @@ function translateMatrix(m){
     }
   }
 
-  // Initial draw
   m.nodes.forEach(node => {
     context.beginPath();
-    context.arc(node.x, node.y, 14, 0, Math.PI * 2, true);
-    context.fillStyle = 'gray';
+    context.arc(node.x, node.y, 16, 0, Math.PI * 2, true);
+    context.fillStyle = '#424FD2';
     context.fill();
     context.stroke();
-    context.fillStyle = 'black';
+    context.fillStyle = 'white';
     context.font = '14px Arial';
     context.fillText(toLetters(node.label), node.x - 5, node.y + 5);
   });
+  calcEverything(m);
 }
 

@@ -1,0 +1,14 @@
+
+¥javascript:S6582•"[Prefer using an optional chain expression instead, as it's more concise and easier to read.(Ø™Ñ8Ôíœ¢‡2J$83cd36a0-3e4c-439d-99a7-377cf99e4689
+£javascript:S3776‡"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(Ïå÷–ıÿÿÿÿ8Úíœ¢‡2J$569ea34f-64eb-4596-95e2-771e7286f91f
+–javascript:S4138‹"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(àÌ½ó8Üíœ¢‡2J$e26e3151-4371-473a-ad45-1d937734a669
+–javascript:S4138¤"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(ßš8áíœ¢‡2J$8c197053-30cb-4fc2-936f-6c87eb3a8715
+javascript:S3776½"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(ì‡ºû8âíœ¢‡2J$660a972a-ba59-4b8b-a92c-609e6bc4c196
+›javascript:S4138î"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(µ“úÍøÿÿÿÿ8âíœ¢‡2J$c588ff11-e5b2-403b-b40c-4a1597321d84
+Šjavascript:S1481û";Remove the declaration of the unused 'removedRow' variable.(½âÀüÿÿÿÿ8äíœ¢‡2J$181f2d4b-09a1-442f-8622-31d231f62458
+‡javascript:S1854û"8Remove this useless assignment to variable "removedRow".(½âÀüÿÿÿÿ8äíœ¢‡2J$2235ce5f-77a2-4354-bd57-bfcca10e9d4a
+javascript:S4030ı"?Either use this collection's contents or remove the collection.(ù×–Øıÿÿÿÿ8åíœ¢‡2J$ec844faf-c4ba-469d-bbe4-6281ced6a3a6
+›javascript:S4138ş"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(ùÁÌÊùÿÿÿÿ8æíœ¢‡2J$f8386cbb-d00d-410a-8352-fc4f9874a4f0
+mjavascript:S125†"Remove this commented out code.(°Ñşÿÿÿÿ8æíœ¢‡2J$f868a45e-7398-49dd-89ba-2230767019d5
+›javascript:S4138É"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(ğØºøÿÿÿÿ8çíœ¢‡2J$f7ab065a-733f-4b2c-8d9c-97928bb8de3f
+›javascript:S4138Ê"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(§†êŞúÿÿÿÿ8çíœ¢‡2J$33494876-774e-4fdb-ba15-4605766aa144

@@ -21,12 +21,12 @@
 <body>
 <h1>Graphenprogramm</h1>
 
-   <div id="container">
+   <!--<div id="container">
      <div class="container__canvas">
-       <div><label for="upload-input">Datei Hochladen (Format .csv)</label>
-         <input id="upload-input" type="file" accept=".csv"></div>
-        <canvas id="graph-canvas" width="1000px" height="600px"></canvas>
-        <button id="berechnen">Graph berechnen</button>
+       <div><label for="upload-input">Datei Hochladen (Format .csv): </label>
+         <input id="upload-input" type="file" accept=".csv">
+        <canvas id="graph-canvas" width="830px" height="500px"></canvas>
+
      </div>
      <div class=container__results>
 
@@ -35,8 +35,21 @@
        <button id="matrizenButton"> Matrizen ein/ausblenden</button>
        <div id="matrizen" class="hidden"></div>
      </div>
-   </div>
+   </div>-->
+<div class="parent">
+  <div class="div1"><div><label for="upload-input">Datei Hochladen (Format .csv): </label>
+    <input id="upload-input" type="file" accept=".csv">
+    <canvas id="graph-canvas" width="830px" height=720px"></canvas>
 
+  </div> </div>
+  <div class="div2"><div class=container__results>
+
+    <h2>Berechnungen zu diesem Graph:</h2>
+    <div id="output"></div>
+    <button id="matrizenButton"> Matrizen ein/ausblenden</button>
+    <div id="matrizen" class="hidden"></div>
+  </div> </div>
+</div>
 
 </body>
 
